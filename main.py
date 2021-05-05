@@ -1,77 +1,50 @@
-#Number Guessing Game Objectives:
-
-# Include an ASCII art logo.
-# Allow the player to submit a guess for a number between 1 and 100.
-# Check user's guess against actual answer. Print "Too high." or "Too low." depending on the user's answer. 
-# If they got the answer correct, show the actual answer to the player.
-# Track the number of turns remaining.
-# If they run out of turns, provide feedback to the player. 
-# Include two different difficulty levels (e.g., 10 guesses in easy mode, only 5 guesses in hard mode).
 
 import random
-th_number = random.choice(range(1, 100))
+th_number = random.randint(1, 100)
 game_over = False
+COUNT_HARD = 5
+COUNT_EASY = 10
 
 print('Welcome to the number guessing game!')
 print("I'm thinking number from 1 to 100")
-#print(th_number)
+print(th_number)
 difficulty = input("Please choose difficulty. Type 'hard' or 'easy':\n")
 
-count_hard = 5
-count_easy = 10
-if difficulty == "hard":
-  print(f"You have {count_hard} attempts")
-  guess = int(input("Make a guess:\n"))
-  while count_hard > 0:
-    if guess == th_number:
-      count_hard = 0
-      print("Yes, that's right number! You win!")    
-    if guess < th_number:
-      print("Too low.")
-      count_hard -= 1
-      print(f"You have {count_hard} attempts left")
-      if count_hard > 0:
-          guess = int(input("Make a guess:\n"))
-      else:
-          print("Game over!")
-    if guess > th_number:
-      print("Too hight")
-      count_hard -= 1
-      print(f"You have {count_hard} attempts left")
-      if count_hard > 0:
-          guess = int(input("Make a guess:\n"))
-      else:
-          print("Game over!")
+def level():
+  if difficulty == "hard":
+    return COUNT_HARD
+  if difficulty == "easy":
+    return COUNT_EASY
 
-if difficulty == "easy":
-  print(f"You have {count_easy} attempts")
-  guess = int(input("Make a guess:\n"))
-  while count_easy > 0:
-    if guess == th_number:
-      count_easy = 0
-      print("Yes, that's right number! You win!")    
-    if guess < th_number:
-      print("Too low.")
-      count_easy -= 1
-      print(f"You have {count_easy} attempts left")
-      if count_easy > 0:
-          guess = int(input("Make a guess:\n"))
-      else:
-          print("Game over!")
-    if guess > th_number:
-      print("Too hight")
-      count_easy -= 1
-      print(f"You have {count_easy} attempts left")
-      if count_easy > 0:
-          guess = int(input("Make a guess:\n"))
-      else:
-          print("Game over!")
-else:
-  if count_hard == 0 or count_easy == 0:
-    game_over = True
-  else:
-    print("Something goes wrong. Try again")    
-    difficulty = input("Please choose difficulty. Type 'hard' or 'easy':\n")
+select_level = level() 
+print(f"You have {select_level} attempts")
+guess = int(input("Make a guess:\n"))
+
+def new_game(th_number, guess, select_level):
+    """checks if guess matches th_number and calculates attemts left"""
+    while select_level > 0:
+        if guess == th_number:
+          select_level = 0
+          print(f"Yes, that's right number! You win! The answer is {th_number}")    
+        if guess < th_number:
+          print("Too low.")
+          select_level -= 1
+          print(f"You have {select_level} attempts left")
+          if select_level > 0:
+              guess = int(input("Make a guess:\n"))
+          else:
+              print("Game over!")
+        if guess > th_number:
+          print("Too hight")
+          select_level -= 1
+          print(f"You have {select_level} attempts left")
+          if select_level > 0:
+              guess = int(input("Make a guess:\n"))
+          else:
+              print("Game over!")
+
+
+new_game(th_number, guess, select_level)
     
       
 
